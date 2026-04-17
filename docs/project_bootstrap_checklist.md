@@ -1,12 +1,13 @@
-# Project Bootstrap Checklist
+# 專案 Bootstrap Checklist
 
-- [ ] Rename repo, `groupId`, `artifactId`, and Spring application name
-- [ ] Replace `com.example.project` base package
-- [ ] Replace demo JWT secret and local database settings
-- [ ] Decide whether to keep or remove the `Task` demo module
-- [ ] Replace seed users, names, emails, and passwords
-- [ ] Remove all template wording from README and API docs
-- [ ] Confirm Flyway migrations run on a clean database
-- [ ] Confirm `login`, `me`, and demo task APIs work
-- [ ] Run unit and integration tests
-- [ ] Verify no project-specific business vocabulary leaked into the template
+- [ ] 修改 repo 名稱、`groupId`、`artifactId`、Spring application name
+- [ ] 替換 `com.example.project` base package
+- [ ] 替換 demo JWT secret 與本地資料庫設定
+- [ ] 替換 Docker Compose 使用的 `.env` 值
+- [ ] 決定是否保留 `Task` demo module
+- [ ] 替換 seed data 中的使用者名稱、email、密碼
+- [ ] 移除 README 與 API 文件中的 template wording
+- [ ] 確認 Flyway migration 可在乾淨資料庫上執行
+- [ ] 確認 `login`、`me`、demo task API 可正常使用
+- [ ] 跑過 unit test 與 integration test
+- [ ] 確認沒有把特定業務專案語意漏進 template

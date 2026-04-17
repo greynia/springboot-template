@@ -58,6 +58,13 @@ class AuthIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.role").value("ADMIN"));
     }
 
+    @Test
+    void shouldExposeHealthEndpointWithoutAuthentication() throws Exception {
+        mockMvc.perform(get("/actuator/health"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("UP"));
+    }
+
     private String loginAndGetToken(String email, String password) throws Exception {
         MvcResult result = mockMvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)

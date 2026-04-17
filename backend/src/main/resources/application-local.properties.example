@@ -4,3 +4,8 @@ spring.datasource.password=postgres
 
 app.jwt.secret=0123456789abcdef0123456789abcdef
 app.jwt.expiration-minutes=120
+app.cors.allowed-origins=http://localhost:3000
+app.cors.allowed-methods=GET,POST,PATCH,PUT,DELETE,OPTIONS
+app.cors.allowed-headers=*
+app.cors.exposed-headers=Authorization
+app.cors.allow-credentials=true

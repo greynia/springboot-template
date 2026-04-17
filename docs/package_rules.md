@@ -1,25 +1,25 @@
-# Package Rules
+# Package 規則
 
-## Goal
+## 目標
 
-Keep responsibilities explicit and avoid letting HTTP, persistence, and business rules bleed into each other.
+讓分層責任保持清楚，避免 HTTP、persistence、business rule 彼此滲透。
 
-## Rules
+## 規則
 
 - `api`
-  Accept HTTP requests, validate request DTOs, call application services, and return response DTOs.
+  負責接 HTTP request、做 DTO validation、呼叫 application service、回傳 response DTO。
 - `application`
-  Orchestrate use cases, enforce application-level authorization, coordinate repositories, and translate domain errors.
+  負責 use case orchestration、application 層級授權、協調 repository、轉譯 domain error。
 - `domain`
-  Hold business rules, state transitions, and domain invariants without Spring or JPA dependencies.
+  負責 business rule、狀態轉移、領域不變條件，不依賴 Spring 或 JPA。
 - `infrastructure`
-  Implement technical concerns such as JPA, Spring Security, JWT, and configuration.
+  負責技術細節，例如 JPA、Spring Security、JWT、設定與整合。
 - `common`
-  Hold neutral shared enums or utilities that do not belong to a business module.
+  放中性的共用 enum 或 utility，不放特定業務模組語意。
 
 ## Guardrails
 
-- Controllers must not talk to repositories directly.
-- Domain models must not carry JPA annotations.
-- Infrastructure types must not define business policy.
-- Do not introduce `Base*` abstractions unless at least two real modules need them.
+- Controller 不可直接呼叫 repository。
+- Domain model 不可帶 JPA annotation。
+- Infrastructure type 不可定義業務政策。
+- 除非至少有兩個真實模組需要，否則不要引入 `Base*` 抽象。

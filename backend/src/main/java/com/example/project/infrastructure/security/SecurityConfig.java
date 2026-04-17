@@ -1,5 +1,6 @@
 package com.example.project.infrastructure.security;
 
+import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -9,6 +10,9 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 public class SecurityConfig {
@@ -25,7 +29,15 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/login").permitAll()
+                        .requestMatchers(
+                                "/api/auth/login",
+                                "/actuator/health",
+                                "/actuator/health/**",
+                                "/actuator/info",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -36,5 +48,23 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource(CorsProperties corsProperties) {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(defaultIfEmpty(corsProperties.allowedOrigins(), List.of("http://localhost:3000")));
+        configuration.setAllowedMethods(defaultIfEmpty(corsProperties.allowedMethods(), List.of("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS")));
+        configuration.setAllowedHeaders(defaultIfEmpty(corsProperties.allowedHeaders(), List.of("*")));
+        configuration.setExposedHeaders(defaultIfEmpty(corsProperties.exposedHeaders(), List.of("Authorization")));
+        configuration.setAllowCredentials(corsProperties.allowCredentials());
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+    private List<String> defaultIfEmpty(List<String> values, List<String> defaults) {
+        return values == null || values.isEmpty() ? defaults : values;
     }
 }
