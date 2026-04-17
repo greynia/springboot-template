@@ -1,0 +1,6 @@
+spring.datasource.url=jdbc:postgresql://localhost:5432/springboot_template
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+
+app.jwt.secret=0123456789abcdef0123456789abcdef
+app.jwt.expiration-minutes=120

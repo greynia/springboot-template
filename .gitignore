@@ -1,0 +1,8 @@
+backend/target/
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+.idea/
+.DS_Store
+*.iml
+
