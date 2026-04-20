@@ -9,15 +9,15 @@
 
 ## 第二優先
 
-- [ ] 補 refresh token skeleton
-- [ ] 補 password policy 與修改密碼流程 skeleton
+- [x] 補 refresh token skeleton
+- [x] 補 password policy 與修改密碼流程 skeleton
 - [x] 補 profile 專用設定，例如 `application-docker.properties`
 - [ ] 補常用 entity 的 audit field 策略
 
 ## 第三優先
 
 - [x] 補 Actuator 與 health/readiness endpoint
-- [ ] 補最小 observability 預設與 request correlation 策略
+- [x] 補最小 observability 預設與 request correlation 策略
 - [ ] 補超出 `ADMIN` / `USER` 的最小 RBAC 延伸指引
-- [ ] 補 pagination 與 query filter pattern 範例
+- [x] 補 pagination 與 query filter pattern 範例
 - [x] 補 `mvn test` 的 CI workflow

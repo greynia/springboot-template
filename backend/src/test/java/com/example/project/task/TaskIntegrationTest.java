@@ -2,6 +2,7 @@ package com.example.project.task;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -29,7 +30,10 @@ class TaskIntegrationTest extends AbstractIntegrationTest {
         mockMvc.perform(get("/api/tasks").header("Authorization", bearer(login("admin@example.com", "password123"))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.items", hasSize(3)))
-                .andExpect(jsonPath("$.total").value(3));
+                .andExpect(jsonPath("$.currentPage").value(1))
+                .andExpect(jsonPath("$.totalCount").value(3))
+                .andExpect(jsonPath("$.pageSize").value(3))
+                .andExpect(jsonPath("$.totalPages").value(1));
     }
 
     @Test
@@ -66,9 +70,13 @@ class TaskIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldReturnNotFoundForMissingTask() throws Exception {
-        mockMvc.perform(get("/api/tasks/999").header("Authorization", bearer(login("admin@example.com", "password123"))))
+        mockMvc.perform(get("/api/tasks/999")
+                        .header("Authorization", bearer(login("admin@example.com", "password123")))
+                        .header("X-Request-Id", "req-task-404"))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.errorCode").value("TASK_NOT_FOUND"));
+                .andExpect(header().string("X-Request-Id", "req-task-404"))
+                .andExpect(jsonPath("$.errorCode").value("TASK_NOT_FOUND"))
+                .andExpect(jsonPath("$.requestId").value("req-task-404"));
     }
 
     @Test

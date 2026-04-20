@@ -1,6 +1,7 @@
 package com.example.project.infrastructure.security;
 
 import com.example.project.api.dto.common.ErrorResponse;
+import com.example.project.infrastructure.observability.RequestCorrelationConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,11 +32,13 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
     ) throws IOException, ServletException {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        String requestId = (String) request.getAttribute(RequestCorrelationConstants.REQUEST_ID_ATTRIBUTE);
         objectMapper.writeValue(response.getOutputStream(), new ErrorResponse(
                 "UNAUTHORIZED",
                 "Authentication is required.",
                 List.of(),
-                OffsetDateTime.now()
+                OffsetDateTime.now(),
+                requestId
         ));
     }
 }

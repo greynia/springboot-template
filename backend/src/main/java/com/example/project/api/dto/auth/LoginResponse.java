@@ -4,6 +4,7 @@ import com.example.project.api.dto.common.UserSummaryResponse;
 
 public record LoginResponse(
         String accessToken,
+        String refreshToken,
         UserSummaryResponse user
 ) {
 }

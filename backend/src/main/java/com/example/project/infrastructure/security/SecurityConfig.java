@@ -1,5 +1,6 @@
 package com.example.project.infrastructure.security;
 
+import com.example.project.infrastructure.observability.RequestCorrelationFilter;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
+            RequestCorrelationFilter requestCorrelationFilter,
             JwtAuthenticationFilter jwtAuthenticationFilter,
             RestAuthenticationEntryPoint authenticationEntryPoint
     ) throws Exception {
@@ -31,6 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/auth/login",
+                                "/api/auth/refresh",
                                 "/actuator/health",
                                 "/actuator/health/**",
                                 "/actuator/info",
@@ -40,6 +43,7 @@ public class SecurityConfig {
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
+                .addFilterBefore(requestCorrelationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

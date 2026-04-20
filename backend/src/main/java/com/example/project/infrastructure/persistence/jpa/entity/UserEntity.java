@@ -38,6 +38,9 @@ public class UserEntity {
     @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;
 
+    @Column(name = "updated_at")
+    private OffsetDateTime updatedAt;
+
     public Long getId() {
         return id;
     }
@@ -54,6 +57,10 @@ public class UserEntity {
         return passwordHash;
     }
 
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
     public UserRole getRole() {
         return role;
     }
@@ -64,5 +71,13 @@ public class UserEntity {
 
     public OffsetDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public OffsetDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

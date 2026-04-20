@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     Optional<UserEntity> findByEmail(String email);
+
+    java.util.List<UserEntity> findAllByActiveTrueOrderByNameAsc();
 }

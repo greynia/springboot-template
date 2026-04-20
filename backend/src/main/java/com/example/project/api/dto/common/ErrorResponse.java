@@ -6,7 +6,9 @@ import java.util.List;
 public record ErrorResponse(
         String errorCode,
         String message,
-        List<String> details,
-        OffsetDateTime timestamp
+        List<FieldViolation> errors,
+        OffsetDateTime timestamp,
+        String requestId
 ) {
+    public record FieldViolation(String field, String message) {}
 }

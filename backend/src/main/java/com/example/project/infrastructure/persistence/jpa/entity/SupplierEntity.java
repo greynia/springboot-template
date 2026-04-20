@@ -1,6 +1,6 @@
 package com.example.project.infrastructure.persistence.jpa.entity;
 
-import com.example.project.common.enums.TaskStatus;
+import com.example.project.common.enums.SupplierStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,26 +17,25 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
 @Entity
-@Table(name = "tasks")
-public class TaskEntity {
+@Table(name = "suppliers")
+public class SupplierEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 200)
-    private String title;
+    @Column(nullable = false, unique = true, length = 50)
+    private String code;
 
-    @Column(columnDefinition = "TEXT")
-    private String description;
+    @Column(nullable = false, length = 200)
+    private String name;
+
+    @Column(name = "contact_email", nullable = false, length = 255)
+    private String contactEmail;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private TaskStatus status;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "assignee_id")
-    private UserEntity assignee;
+    private SupplierStatus status;
 
     @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;
@@ -64,36 +63,36 @@ public class TaskEntity {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getCode() {
+        return code;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public TaskStatus getStatus() {
+    public String getContactEmail() {
+        return contactEmail;
+    }
+
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
+    }
+
+    public SupplierStatus getStatus() {
         return status;
     }
 
-    public void setStatus(TaskStatus status) {
+    public void setStatus(SupplierStatus status) {
         this.status = status;
-    }
-
-    public UserEntity getAssignee() {
-        return assignee;
-    }
-
-    public void setAssignee(UserEntity assignee) {
-        this.assignee = assignee;
     }
 
     public OffsetDateTime getCreatedAt() {

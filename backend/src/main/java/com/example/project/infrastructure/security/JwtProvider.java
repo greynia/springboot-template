@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.UUID;
 import javax.crypto.SecretKey;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,7 @@ public class JwtProvider {
         Instant now = Instant.now();
         return Jwts.builder()
                 .subject(String.valueOf(user.id()))
+                .id(UUID.randomUUID().toString())
                 .claim("email", user.email())
                 .claim("name", user.name())
                 .claim("role", user.role().name())

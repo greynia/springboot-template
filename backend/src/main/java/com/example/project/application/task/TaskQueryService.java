@@ -26,7 +26,7 @@ public class TaskQueryService {
                 .stream()
                 .map(taskMapper::toResponse)
                 .toList();
-        return new PageResponse<>(tasks, tasks.size());
+        return PageResponse.from(tasks, 1, tasks.size(), tasks.isEmpty() ? 1 : tasks.size());
     }
 
     @Transactional(readOnly = true)

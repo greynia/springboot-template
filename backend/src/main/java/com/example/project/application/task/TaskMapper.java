@@ -1,5 +1,6 @@
 package com.example.project.application.task;
 
+import com.example.project.api.dto.common.AuditActorResponse;
 import com.example.project.api.dto.common.UserSummaryResponse;
 import com.example.project.api.dto.task.TaskResponse;
 import com.example.project.application.auth.AuthenticatedUser;
@@ -18,7 +19,8 @@ public class TaskMapper {
                 task.getStatus(),
                 toUserSummary(task.getAssignee()),
                 task.getCreatedAt(),
-                task.getUpdatedAt()
+                task.getUpdatedAt(),
+                toAuditActor(task.getCreatedByUser())
         );
     }
 
@@ -31,5 +33,10 @@ public class TaskMapper {
 
     public UserSummaryResponse toUserSummary(AuthenticatedUser user) {
         return new UserSummaryResponse(user.id(), user.email(), user.name(), user.role());
+    }
+
+    private AuditActorResponse toAuditActor(UserEntity user) {
+        if (user == null) return null;
+        return new AuditActorResponse(user.getId(), user.getName());
     }
 }
